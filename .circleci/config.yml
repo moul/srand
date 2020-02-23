@@ -8,10 +8,12 @@ workflows:
     jobs:
       - moul/golang-build:
           gopkg: moul.io/srand
+          no-install: true
       - moul/golang-build:
           gopkg: moul.io/srand
           tag: '1.12'
+          no-install: true
       - moul/golang-build:
           gopkg: moul.io/srand
           tag: '1.11'
-      - moul/docker-build
+          no-install: true
