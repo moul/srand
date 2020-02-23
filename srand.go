@@ -1,6 +1,8 @@
 package srand
 
 import (
+	crypto_rand "crypto/rand"
+	"encoding/binary"
 	"os"
 	"strconv"
 	"time"
@@ -25,4 +27,16 @@ func Overridable(key string) int64 {
 		return n
 	}
 	return Fast()
+}
+
+// Secure returns a cryptographically secure random seed.
+//
+// Based on https://stackoverflow.com/a/54491783
+func Secure() int64 {
+	var b [8]byte
+	_, err := crypto_rand.Read(b[:])
+	if err != nil {
+		panic("cannot seed math/rand package with cryptographically secure random number generator")
+	}
+	return int64(binary.LittleEndian.Uint64(b[:]))
 }
