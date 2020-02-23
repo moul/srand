@@ -24,7 +24,7 @@ func init() {
     // cryptographically secure initializer
     rand.Seed(srand.Secure())
 
-// simple seed initializer
+    // simple seed initializer
     rand.Seed(srand.Fast())
 
     // simple seed initializer overridable by the $SRAND env var
