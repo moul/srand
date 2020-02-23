@@ -21,10 +21,10 @@ func TestFast(t *testing.T) {
 }
 
 func ExampleOverridable() {
-	rand.Seed(srand.Overridable()) // seed with Fast
+	rand.Seed(srand.Overridable("SRAND")) // seed with Fast
 
 	os.Setenv("SRAND", "42")
-	rand.Seed(srand.Overridable()) // seed with 42
+	rand.Seed(srand.Overridable("SRAND")) // seed with 42
 }
 
 func TestOverridable(t *testing.T) {
@@ -35,7 +35,7 @@ func TestOverridable(t *testing.T) {
 	}
 
 	os.Setenv("SRAND", "42")
-	c := srand.Overridable()
+	c := srand.Overridable("SRAND")
 	if c != 42 {
 		t.Errorf("Expected 42, got %d.", c)
 	}
