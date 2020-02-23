@@ -40,3 +40,15 @@ func TestOverridable(t *testing.T) {
 		t.Errorf("Expected 42, got %d.", c)
 	}
 }
+
+func ExampleSecure() {
+	rand.Seed(srand.Secure())
+}
+
+func TestSecure(t *testing.T) {
+	a := srand.Secure()
+	b := srand.Secure()
+	if a == b {
+		t.Errorf("Expected %d != %d.", b, a)
+	}
+}

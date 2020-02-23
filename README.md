@@ -21,7 +21,10 @@ import "math/rand"
 import "moul.io/srand"
 
 func init() {
-    // simple seed initializer
+    // cryptographically secure initializer
+    rand.Seed(srand.Secure())
+
+// simple seed initializer
     rand.Seed(srand.Fast())
 
     // simple seed initializer overridable by the $SRAND env var
