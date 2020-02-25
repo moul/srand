@@ -21,20 +21,21 @@ import "math/rand"
 import "moul.io/srand"
 
 func init() {
-    // cryptographically secure initializer
-    rand.Seed(srand.Secure())
-
-    // simple seed initializer
-    rand.Seed(srand.Fast())
-
-    // simple seed initializer overridable by the $SRAND env var
-    rand.Seed(srand.Overridable("SRAND"))
-    // simple seed initializer overridable by env vars
-    rand.Seed(srand.Overridable())
-
-    // cryptographically secure initializer
     rand.Seed(srand.Secure())
 }
+```
+
+Alternative seeds
+
+```golang
+// simple seed initializer
+rand.Seed(srand.Fast())
+
+// simple seed initializer overridable by the $SRAND env var
+rand.Seed(srand.Overridable("SRAND"))
+
+// cryptographically secure initializer
+rand.Seed(srand.Secure())
 ```
 
 ## Install
