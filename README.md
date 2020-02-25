@@ -17,8 +17,10 @@
 ## Usage
 
 ```golang
-import "math/rand"
-import "moul.io/srand"
+import (
+    "math/rand"
+    "moul.io/srand"
+)
 
 func init() {
     rand.Seed(srand.Secure())
