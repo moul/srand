@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-    rand.Seed(srand.Secure())
+    rand.Seed(srand.MustSecure())
 }
 ```
 
@@ -33,11 +33,15 @@ Alternative seeds
 // simple seed initializer
 rand.Seed(srand.Fast())
 
+// thread-safe simple seed initializer
+go func() { rng := rand.New(rand.NewSource(srand.SafeFast())); fmt.Println(rng.Intn(42)) }()
+go func() { rng := rand.New(rand.NewSource(srand.SafeFast())); fmt.Println(rng.Intn(42)) }()
+
 // simple seed initializer overridable by the $SRAND env var
 rand.Seed(srand.Overridable("SRAND"))
 
 // cryptographically secure initializer
-rand.Seed(srand.Secure())
+rand.Seed(srand.MustSecure())
 ```
 
 ## Install
@@ -48,7 +52,7 @@ $ go get -u moul.io/srand
 
 ## License
 
-© 2019 [Manfred Touron](https://manfred.life)
+© 2019-2020 [Manfred Touron](https://manfred.life)
 
 Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) ([`LICENSE-APACHE`](LICENSE-APACHE)) or the [MIT license](https://opensource.org/licenses/MIT) ([`LICENSE-MIT`](LICENSE-MIT)), at your option. See the [`COPYRIGHT`](COPYRIGHT) file for more details.
 
