@@ -1,11 +1,12 @@
 package srand
 
 import (
-	crypto_rand "crypto/rand"
+	crand "crypto/rand"
 	"encoding/binary"
 	"errors"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 )
 
@@ -13,6 +14,22 @@ import (
 // That value is not cryptographically secure.
 func Fast() int64 {
 	return time.Now().UTC().UnixNano()
+}
+
+var (
+	safeFastLastValue int64
+	safeFastMutex     sync.Mutex
+)
+
+// SafeFast is a thread-safe version of Fast.
+func SafeFast() int64 {
+	safeFastMutex.Lock()
+	var seed int64
+	for seed == 0 || seed == safeFastLastValue {
+		seed = time.Now().UTC().UnixNano()
+	}
+	safeFastMutex.Unlock()
+	return seed
 }
 
 // Overridable will check if the "key" var is configured, else
@@ -43,7 +60,7 @@ func MustOverridable(key string) int64 {
 // Based on https://stackoverflow.com/a/54491783
 func Secure() (int64, error) {
 	var b [8]byte
-	_, err := crypto_rand.Read(b[:])
+	_, err := crand.Read(b[:])
 	if err != nil {
 		return 0, errors.New("cannot seed math/rand package with cryptographically secure random number generator")
 	}
