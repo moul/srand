@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"os"
+	"runtime"
 	"strconv"
 	"sync"
 	"time"
@@ -23,11 +24,13 @@ var (
 
 // SafeFast is a thread-safe version of Fast.
 func SafeFast() int64 {
+	seed := time.Now().UTC().UnixNano()
 	safeFastMutex.Lock()
-	var seed int64
-	for seed == 0 || seed == safeFastLastValue {
+	for seed == safeFastLastValue {
+		runtime.Gosched()
 		seed = time.Now().UTC().UnixNano()
 	}
+	safeFastLastValue = seed
 	safeFastMutex.Unlock()
 	return seed
 }
